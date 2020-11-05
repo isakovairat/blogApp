@@ -1,0 +1,70 @@
+@import '../../styles/variables';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin-top: 25px;
+  width: 100%;
+  background-color: $bgBase;
+  border-radius: 5px;
+  box-shadow: $boxShadow;
+}
+
+.textInfo {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin: 0 0 4px 0;
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.title__text {
+  font-size: 20px;
+  color: $primaryColor;
+  margin: 0 10px 0 0;
+}
+
+.title__likes {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.tags {
+  display: flex;
+}
+
+.summary {
+
+}
+
+.userInfo {
+  display: flex;
+  align-self: flex-start;
+}
+
+.userInfo__name {
+  font-size: 18px;
+  margin: 0;
+}
+
+.userInfo__date {
+  font-size: 12px;
+  color: $textColorSecondary;
+}
+
+.userInfo__avatar {
+  width: 46px;
+  height: 46px;
+  margin-left: 5px;
+  background: url("../../media/user.png") no-repeat 50%;
+}
+
