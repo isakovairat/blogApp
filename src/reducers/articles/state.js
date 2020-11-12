@@ -1,6 +1,8 @@
 const articlesInitialState = {
   articles: [],
-  isLoading: false,
+  articlesCount: 0,
+  isLoading: true,
+  isError: false,
 };
 
 export default articlesInitialState;

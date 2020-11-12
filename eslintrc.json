@@ -27,7 +27,8 @@
     "react/state-in-constructor": ["off"],
     "react/jsx-props-no-spreading": ["off"],
     "react/static-property-placement": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "object-curly-spacing": ["error", "always"]
   },
   "settings": {
     "react": {

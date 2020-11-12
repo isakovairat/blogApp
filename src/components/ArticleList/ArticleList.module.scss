@@ -6,3 +6,13 @@
   flex-direction: column;
   align-items: center;
 }
+
+.spinnerContainer {
+  @extend .container;
+  height: calc(100vh - 80px);
+  justify-content: center;
+}
+
+.pagination {
+  margin-top: 15px;
+}
