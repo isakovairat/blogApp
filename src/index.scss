@@ -16,3 +16,12 @@ body {
 .ant-pagination-options {
     display: none;
 }
+
+.ant-form-item {
+    margin-top: 4px;
+    margin-bottom: 12px;
+
+    &:nth-child(9) {
+        margin-bottom: 21px;
+    }
+}

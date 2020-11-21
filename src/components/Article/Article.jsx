@@ -1,49 +1,69 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import * as classes from '../Article/Article.module.scss';
 import { HeartTwoTone } from '@ant-design/icons';
-import { Tag } from 'antd';
+import { Spin, Tag } from 'antd';
+import getArticleAction from '../../actions/article';
+import * as dayjs from 'dayjs';
 
-const Article = () => {
-  return (
-    <div className={classes.container}>
-      <div className={classes.textInfo}>
-        <div className={classes.title}>
-          <h5 className={classes.title__text}>Some article title</h5>
-          <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 18 }} />
-          <span className={classes.title__likes}>12</span>
+const Article = ({ article, getArticle }) => {
+  useEffect(() => {
+    getArticle();
+  }, []);
+
+  const renderArticle = () => {
+    if (article.isLoading) {
+      return (
+        <div className={classes.spinnerContainer}>
+          <Spin size="large" />
         </div>
-        <div className={classes.tags}>
-          <Tag>tag 1</Tag>
-          <Tag>tag 2</Tag>
+      );
+    }
+
+    if (article.article) {
+      return (
+        <div className={classes.container}>
+          <div className={classes.textInfo}>
+            <div className={classes.title}>
+              <h5 className={classes.title__text}>{article.article.title}</h5>
+              <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 18 }} />
+              <span className={classes.title__likes}>{article.article.favoritesCount}</span>
+            </div>
+            <div className={classes.tags}>
+              {article.article.tagList.length > 0 && article.article.tagList.map((tag) => <Tag key={tag}>{tag}</Tag>)}
+            </div>
+            <div className={classes.summary}>
+              <p>{article.article.description}</p>
+            </div>
+            <p>{article.article.body}</p>
+          </div>
+          <div className={classes.userInfo}>
+            <div>
+              <h6 className={classes.userInfo__name}>{article.article.author.username}</h6>
+              <span className={classes.userInfo__date}>
+                {dayjs(new Date(article.createdAt)).format('MMMM D, YYYY')}
+              </span>
+            </div>
+            <img
+              className={classes.userInfo__avatar}
+              src={article.article.author.image}
+              alt={article.article.author.image}
+            />
+          </div>
         </div>
-        <div className={classes.summary}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias aperiam aspernatur consequuntur culpa
-            deserunt dolore dolorem doloribus eius error esse est, ex exercitationem harum inventore ipsa labore laborum
-            laudantium libero maxime minima non officia optio placeat possimus praesentium provident quaerat qui sed sit
-            temporibus ut vitae voluptatibus! Aliquid, dolores!
-          </p>
-        </div>
-        <p>
-          Est Ampyciden pater patent Amor saxa inpiger Lorem markdownum Stygias neque is referam fudi, breve per. Et
-          Achaica tamen: nescia ista occupat, illum se ad potest humum et. Qua deos has fontibus Recens nec ferro
-          responsaque dedere armenti opes momorderat pisce, vitataque et fugisse. Et iamque incipiens, qua huius suo
-          omnes ne pendentia citus pedum. Quamvis pronuba Ulli labore facta. Io cervis non nosterque nullae, vides:
-          aethere Delphice subit, tamen Romane ob cubilia Rhodopen calentes librata! Nihil populorum flava, inrita? Sit
-          hic nunc, hoc formae Esse illo? Umeris eram similis, crudelem de est relicto ingemuit finiat Pelia uno cernunt
-          Venus draconem, hic, Methymnaeae. 1. Clamoribus haesit tenentem iube Haec munera 2. Vincla venae 3. Paris
-          includere etiam tamen 4. Superi te putria imagine Deianira 5. Tremore hoste Esse sed perstat capillis siqua
-        </p>
-      </div>
-      <div className={classes.userInfo}>
-        <div>
-          <h6 className={classes.userInfo__name}>John Doe</h6>
-          <span className={classes.userInfo__date}>March 5, 2020</span>
-        </div>
-        <div className={classes.userInfo__avatar} />
-      </div>
-    </div>
-  );
+      );
+    }
+  };
+
+  return renderArticle();
 };
 
-export default Article;
+const mapStateToProps = (state) => ({
+  article: state.article,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getArticle: () => dispatch(getArticleAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Article);

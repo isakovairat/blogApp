@@ -13,7 +13,7 @@ ReactDOM.render(
     <ErrorBoundary>
       <ConnectedRouter history={history}>
         <Switch>
-          <Route exact path="/" component={App}/>
+          <Route path="/" component={App}/>
         </Switch>
       </ConnectedRouter>
     </ErrorBoundary>

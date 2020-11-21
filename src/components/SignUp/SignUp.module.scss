@@ -1,0 +1,54 @@
+@import '../../styles/variables';
+
+.container {
+  width: 384px;
+  height: auto;
+  margin: 60px auto 0 auto;
+  padding: 48px 32px;
+  background-color: $bgBase;
+  border-radius: 5px;
+  box-shadow: $boxShadow;
+}
+
+.title {
+  text-align: center;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input {
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding: 1px 0;
+}
+
+.create {
+  text-align: center;
+  font-size: 20px;
+}
+
+.haveAccount {
+  display: flex;
+  justify-content: center;
+  color: #8C8C8C;
+}
+
+.btn {
+  margin: 10px 0;
+}
+
+.hr {
+  width: 320px;
+  height: 0;
+  border: 1px solid #e8e8e8;
+  margin: 25px 0 15px 0;
+}
+
+.errorNotification {
+  color: red;
+}

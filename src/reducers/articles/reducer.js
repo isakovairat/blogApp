@@ -10,7 +10,7 @@ const articlesReducer = (state = articlesInitialState, action) => {
     case GET_ARTICLES_SUCCESS:
       return { ...state, articles: action.payload.articles, articlesCount: action.payload.articlesCount, isLoading: false, isError: false };
     case GET_ARTICLES_ERROR:
-      return { ...state, isLoading: false, isError: true };
+      return { ...state, isLoading: false, isError: true, articles: [], articlesCount: 0 };
   }
 }
 

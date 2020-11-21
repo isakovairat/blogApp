@@ -1,9 +1,19 @@
 import React from 'react';
 import * as classes from './ArticleListItem.module.scss';
 import { HeartTwoTone } from '@ant-design/icons';
-import { Tag } from 'antd';
+import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import * as dayjs from 'dayjs';
+
+const likeBtnStyle = {
+  border: 'none',
+  backgroundColor: 'transparent',
+  padding: '0',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  boxShadow: 'none',
+};
 
 const ArticleListItem = (props) => {
   const { article } = props;
@@ -11,12 +21,13 @@ const ArticleListItem = (props) => {
     <div className={classes.container}>
       <div className={classes.textInfo}>
         <div className={classes.title}>
-          <Link to={`/article/1`}>
-            {/*<Link to={`/article/${article.slug}`}>*/}
+          <Link to={`/articles/${article.slug}`}>
             <h5 className={classes.title__text}>{article.title}</h5>
           </Link>
-          <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 18 }} />
-          <span className={classes.title__likes}>{article.favoritesCount}</span>
+          <Button style={likeBtnStyle}>
+            <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 18 }} />
+            <span className={classes.title__likes}>{article.favoritesCount}</span>
+          </Button>
         </div>
         <div className={classes.tags}>
           {article.tagList.length > 0 && article.tagList.map((tag) => <Tag key={tag}>{tag}</Tag>)}
