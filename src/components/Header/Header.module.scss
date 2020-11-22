@@ -45,3 +45,14 @@ li {
     background: $primaryColor;
   }
 }
+
+.userInfo__name {
+  font-size: 18px;
+  margin: 0;
+}
+
+.userInfo__avatar {
+  width: 46px;
+  height: 46px;
+  margin-left: 5px;
+}

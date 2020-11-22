@@ -3,7 +3,9 @@ import Header from '../Header';
 import ArticleList from '../ArticleList';
 import { Route, Switch } from 'react-router-dom';
 import Article from '../Article';
-import SignUp from '../SignUp';
+import SignUp from '../Forms/SignUp';
+import SignIn from '../Forms/SignIn';
+import EditProfile from '../Forms/EditProfile';
 
 const App = () => {
   return (
@@ -14,7 +16,8 @@ const App = () => {
         <Route exact path="/articles" component={ArticleList} />
         <Route path="/articles/:slug" component={Article} />
         <Route exact path="/sign-up" component={SignUp} />
-        {/*<Route exact path="/sign-in" component={} />*/}
+        <Route exact path="/sign-in" component={SignIn} />
+        <Route exact path="/profile" component={EditProfile} />
       </Switch>
     </div>
   );

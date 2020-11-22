@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Input, Button, Checkbox } from 'antd';
-import * as classes from './SignUp.module.scss';
-import { Link } from 'react-router-dom';
-import { signUpRequest } from '../../api';
+import * as classes from '../Sign.module.scss';
+import { Link, useHistory } from 'react-router-dom';
+import { signUpRequest } from '../../../api';
+import { useCookies } from 'react-cookie';
+import { setUserAction } from '../../../actions/user';
 
 const SignUp = () => {
   const { handleSubmit, control, errors, watch } = useForm();
   const [remember, setRemember] = useState(false);
   const [showRememberAlert, setShowRememberAlert] = useState(false);
+  const [cookies, setCookie] = useCookies(['token']);
+  const history = useHistory();
+
+  if (!cookies.token) {
+    history.push('/');
+  }
 
   const onSubmit = (data) => {
     if (!remember) {
@@ -20,9 +28,20 @@ const SignUp = () => {
     const body = {
       user: { username, email, password },
     };
-    signUpRequest(body).then((response) => {
-      console.log(response);
-    });
+    signUpRequest(body)
+      .then((response) => {
+        if (response.errors) {
+          // TODO обработчик ошибок
+        } else {
+          const { user } = response;
+          setCookie('token', user.token);
+          setUserAction(user);
+          history.push('/');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -47,7 +66,7 @@ const SignUp = () => {
         </div>
 
         <div className={classes.input}>
-          <label className={classes.label} htmlFor="username">
+          <label className={classes.label} htmlFor="email">
             Email address
           </label>
           <Controller
@@ -82,7 +101,7 @@ const SignUp = () => {
         </div>
 
         <div className={classes.input}>
-          <label className={classes.label} htmlFor="password">
+          <label className={classes.label} htmlFor="passwordCopy">
             Repeat password
           </label>
           <Controller
@@ -95,7 +114,7 @@ const SignUp = () => {
             rules={{ required: true, minLength: 6, maxLength: 40 }}
           />
           {errors.passwordCopy && (
-            <span className={classes.errorNotification}>Please input your password (min 6 characters)</span>
+            <span className={classes.errorNotification}>Your password needs to be at least 6 characters.</span>
           )}
           {watch('password') !== watch('passwordCopy') && watch('passwordCopy') !== '' && (
             <span className={classes.errorNotification}>Passwords must match!</span>

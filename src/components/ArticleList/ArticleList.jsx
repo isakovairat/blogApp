@@ -4,7 +4,7 @@ import ArticleListItem from '../ArticleListItem';
 import * as classes from './ArticleList.module.scss';
 import { Pagination, Spin } from 'antd';
 import getArticlesAction from '../../actions/articles';
-import { changePageAction } from '../../actions/appInfo';
+import changePageAction from '../../actions/appInfo';
 
 const ArticleList = ({ getArticles, changePage, articles, appInfo }) => {
   useEffect(() => {
