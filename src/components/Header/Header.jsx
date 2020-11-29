@@ -4,17 +4,19 @@ import { Link, useHistory } from 'react-router-dom';
 import * as classes from './Header.module.scss';
 import changePageAction from '../../actions/appInfo';
 import { useCookies } from 'react-cookie';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import { getUserAction, setUserAction } from '../../actions/user';
 import { DEFAULT_IMG } from '../../api';
+import { GET_ARTICLE_SUCCESS } from '../../actions/types';
 
-const Header = ({ changePage, currentUser, getUser }) => {
+const Header = ({ changePage, currentUser, getUser, setArticle }) => {
   const [cookies, setCookie] = useCookies(['token']);
   const history = useHistory();
 
   useEffect(() => {
-    console.log(cookies.token);
-    if (cookies.token) getUser(cookies.token);
+    if (cookies.token) {
+      getUser(cookies.token);
+    }
   }, [cookies.token, getUser]);
 
   const handleLogOut = () => {
@@ -24,7 +26,7 @@ const Header = ({ changePage, currentUser, getUser }) => {
   };
 
   const renderUnauthorizedUserContent = () => {
-    if (!currentUser) {
+    if (!currentUser.user && !currentUser.isLoading) {
       return (
         <ul>
           <li>
@@ -42,25 +44,23 @@ const Header = ({ changePage, currentUser, getUser }) => {
   };
 
   const renderAuthorizedUserContent = () => {
-    if (currentUser) {
-      const { username, image } = currentUser;
+    if (currentUser.user) {
+      const { username, image } = currentUser.user;
       return (
-        <ul>
-          <li>
-            <Link to="/new-article">Create article</Link>
-          </li>
-          <li>
-            <Link to="/profile">
-              <h6 className={classes.userInfo__name}>{username}</h6>
-              <img className={classes.userInfo__avatar} src={image || DEFAULT_IMG} alt="Avatar" />
-            </Link>
-          </li>
-          <li>
-            <Button type="button" onClick={handleLogOut}>
-              Log Out
+        <div className={classes.authorized}>
+          <Link to="/new-article">
+            <Button className={classes.create} onClick={() => setArticle(null)}>
+              Create article
             </Button>
-          </li>
-        </ul>
+          </Link>
+          <Link to="/profile" className={classes.userInfo}>
+            <h6 className={classes.userInfo__name}>{username || 'John Doe'}</h6>
+            <img className={classes.userInfo__avatar} src={image || DEFAULT_IMG} alt="Avatar" />
+          </Link>
+          <Button type="button" onClick={handleLogOut} className={classes.logout}>
+            Log Out
+          </Button>
+        </div>
       );
     }
     return null;
@@ -68,9 +68,16 @@ const Header = ({ changePage, currentUser, getUser }) => {
 
   return (
     <div className={classes.container}>
-      <Link to="/" className={classes.link} onClick={() => changePage(1)}>
+      <Link
+        to="/"
+        className={classes.link}
+        onClick={() => {
+          changePage(1);
+        }}
+      >
         Realworld Blog
       </Link>
+      {currentUser.isLoading && <Spin size="large" />}
       {renderUnauthorizedUserContent()}
       {renderAuthorizedUserContent()}
     </div>
@@ -80,6 +87,7 @@ const Header = ({ changePage, currentUser, getUser }) => {
 const mapDispatchToProps = (dispatch) => ({
   changePage: (page) => dispatch(changePageAction(page)),
   getUser: (token) => dispatch(getUserAction(token)),
+  setArticle: (data) => dispatch({ type: GET_ARTICLE_SUCCESS, payload: { article: data } }),
 });
 
 const mapStateToProps = (state) => ({

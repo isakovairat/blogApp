@@ -5,19 +5,9 @@ import { Tag, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import * as dayjs from 'dayjs';
 import { DEFAULT_IMG } from '../../api';
+import { connect } from 'react-redux';
 
-const likeBtnStyle = {
-  border: 'none',
-  backgroundColor: 'transparent',
-  padding: '0',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  boxShadow: 'none',
-};
-
-const ArticleListItem = (props) => {
-  const { article } = props;
+const ArticleListItem = ({ article, currentUser }) => {
   return (
     <div className={classes.container}>
       <div className={classes.textInfo}>
@@ -25,8 +15,14 @@ const ArticleListItem = (props) => {
           <Link to={`/articles/${article.slug}`}>
             <h5 className={classes.title__text}>{article.title}</h5>
           </Link>
-          <Button style={likeBtnStyle}>
-            <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 18 }} />
+          <Button
+            className={classes.likeBtn}
+            disabled={!currentUser.user}
+            onClick={() => {
+              // TODO обработчик лайков
+            }}
+          >
+            <HeartTwoTone twoToneColor={!currentUser.user ? '#e5e5e5' : '#eb2f96'} style={{ fontSize: 18 }} />
             <span className={classes.title__likes}>{article.favoritesCount}</span>
           </Button>
         </div>
@@ -48,4 +44,8 @@ const ArticleListItem = (props) => {
   );
 };
 
-export default ArticleListItem;
+const mapStateToProps = (state) => ({
+  currentUser: state.currentUser,
+});
+
+export default connect(mapStateToProps)(ArticleListItem);

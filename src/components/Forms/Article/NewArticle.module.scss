@@ -1,7 +1,7 @@
 @import 'src/styles/variables';
 
 .container {
-  width: 384px;
+  width: 80%;
   height: auto;
   margin: 60px auto 0 auto;
   padding: 48px 32px;
@@ -22,6 +22,13 @@
 
 .input {
   height: 70px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding: 1px 0;
+}
+
+.textArea {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
@@ -52,4 +59,37 @@
 
 .errorNotification {
   color: red;
+}
+
+.addTag {
+  width: 100px;
+  height: 40px;
+  border: 1px solid $primaryColor;
+  border-radius: 5px;
+  color: $primaryColor;
+  margin-right: 15px;
+}
+
+.deleteTag {
+  width: 100px;
+  height: 40px;
+  border: 1px solid $errorColor;
+  border-radius: 5px;
+  color: $errorColor;
+}
+
+.tag {
+  width: 30%;
+  margin-right: 40px;
+}
+
+.btns {
+  width: 70%;
+  display: flex;
+}
+
+.tagContainer{
+  width: 100%;
+  display: flex;
+  margin: 5px 0;
 }

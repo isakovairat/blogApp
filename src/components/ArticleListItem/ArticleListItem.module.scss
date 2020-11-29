@@ -10,6 +10,7 @@
   background-color: $bgBase;
   border-radius: 5px;
   box-shadow: $boxShadow;
+  transition: .5s;
 }
 
 .textInfo {
@@ -43,7 +44,8 @@
 }
 
 .summary {
-
+  width: 100%;
+  overflow: hidden;
 }
 
 .userInfo {
@@ -65,6 +67,16 @@
 .userInfo__avatar {
   width: 46px;
   height: 46px;
-  margin-left: 5px;
+  margin-left: 12px;
+  border-radius: 50%;
 }
 
+.likeBtn {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none;
+}

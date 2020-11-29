@@ -5,10 +5,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: .5s;
 }
 
 .spinnerContainer {
   @extend .container;
+  display: block;
   height: calc(100vh - 80px);
   justify-content: center;
 }

@@ -5,8 +5,11 @@ import * as classes from './ArticleList.module.scss';
 import { Pagination, Spin } from 'antd';
 import getArticlesAction from '../../actions/articles';
 import changePageAction from '../../actions/appInfo';
+import { useHistory } from 'react-router-dom';
 
 const ArticleList = ({ getArticles, changePage, articles, appInfo }) => {
+  const history = useHistory();
+
   useEffect(() => {
     getArticles();
   }, []);
@@ -33,7 +36,10 @@ const ArticleList = ({ getArticles, changePage, articles, appInfo }) => {
             current={currentPage}
             size="small"
             total={articles.articlesCount}
-            onChange={changePage}
+            onChange={(page) => {
+              history.push(`./articles?page=${page}`);
+              changePage(page);
+            }}
           />
         </div>
       </div>

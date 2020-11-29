@@ -12,7 +12,7 @@ export const getUserAction = (token) => {
     dispatch({ type: GET_USER_REQUEST });
     try {
       const user = await getUser(token);
-      dispatch({ type: GET_USER_SUCCESS, payload: user });
+      dispatch({ type: GET_USER_SUCCESS, payload: user.user });
     } catch (error) {
       dispatch({ type: GET_USER_ERROR });
     }

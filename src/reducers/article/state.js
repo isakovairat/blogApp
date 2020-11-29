@@ -1,5 +1,5 @@
 const articleInitialState = {
-  article: {},
+  article: null,
   isLoading: true,
   isError: false,
 };

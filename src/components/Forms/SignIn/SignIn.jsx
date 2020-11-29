@@ -12,12 +12,11 @@ const SignIn = () => {
   const [cookies, setCookie] = useCookies(['token']);
   const history = useHistory();
 
-  if (!cookies.token) {
+  if (cookies.token) {
     history.push('/');
   }
 
   const onSubmit = (data) => {
-    console.log(data);
     const { email, password } = data;
     const body = {
       user: { email, password },

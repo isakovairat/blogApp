@@ -6,11 +6,11 @@
   margin: 25px auto 0 auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 15px 20px;
   background-color: $bgBase;
   border-radius: 5px;
   box-shadow: $boxShadow;
+  transition: .5s;
 }
 
 .spinnerContainer {
@@ -76,4 +76,38 @@
   height: 46px;
   margin-left: 5px;
   background: url("../../media/user.png") no-repeat 50%;
+  border-radius: 50%;
+}
+
+.create {
+  color: $successColor;
+  border: 1px solid $successColor;
+  border-radius: 5px;
+  transition: .4s;
+
+  &:hover {
+    color: #fff;
+    border: 1px solid $primaryColor;
+    background: $primaryColor;
+  }
+}
+
+.delete {
+  border-radius: 5px;
+  transition: .4s;
+  margin-right: 10px;
+}
+
+.btns {
+  margin-top: 10px;
+}
+
+.likeBtn {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none;
 }

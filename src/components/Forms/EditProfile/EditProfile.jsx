@@ -2,12 +2,36 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Input, Button } from 'antd';
 import * as classes from '../Sign.module.scss';
+import { useCookies } from 'react-cookie';
+import { useHistory } from 'react-router-dom';
+import { updateUser } from '../../../api';
+import { setUserAction } from '../../../actions/user';
 
 const EditProfile = () => {
   const { handleSubmit, control, errors } = useForm();
+  const [cookies, setCookie] = useCookies(['token']);
+  const history = useHistory();
+
+  if (!cookies.token) history.push('/sign-in');
 
   const onSubmit = (data) => {
-    console.log(data);
+    const { username, email, password, image } = data;
+    const body = { user: { username, email, password, image } };
+
+    updateUser(cookies.token, body)
+      .then((response) => {
+        if (response.errors) {
+          // TODO обработчик ошибок
+        } else {
+          const { token } = response.user;
+          setCookie('token', token);
+          setUserAction(response.user);
+          history.push('/');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -62,13 +86,13 @@ const EditProfile = () => {
           {errors.password && <span className={classes.errorNotification}>Please input your new password</span>}
         </div>
         <div className={classes.input}>
-          <label className={classes.label} htmlFor="avatar">
+          <label className={classes.label} htmlFor="image">
             Avatar image (url)
           </label>
           <Controller
             as={Input}
             type="text"
-            name="avatar"
+            name="image"
             size="large"
             control={control}
             defaultValue=""

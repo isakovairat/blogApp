@@ -2,31 +2,36 @@
 @import "styles/variables.scss";
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: $fontFamily;
-    background-color: $bg;
-    color: $textColor;
+  font-family: $fontFamily;
+  background-color: $bg;
+  color: $textColor;
 }
 
 .ant-pagination-options {
-    display: none;
+  display: none;
 }
 
 .ant-form-item {
-    margin-top: 4px;
-    margin-bottom: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
 
-    &:nth-child(9) {
-        margin-bottom: 21px;
-    }
+  &:nth-child(9) {
+    margin-bottom: 21px;
+  }
 }
 
 .ant-pagination-item-container {
-    position: relative;
-    top: -24px;
+  position: relative;
+  top: -24px;
+}
+
+.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
+  background: none;
+  border: none;
 }
