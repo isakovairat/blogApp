@@ -1,6 +1,6 @@
 const currentUserInitialState = {
   user: null,
-  isLoading: true,
+  isLoading: false,
   isError: false,
 };
 

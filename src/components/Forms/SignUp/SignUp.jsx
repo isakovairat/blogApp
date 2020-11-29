@@ -5,9 +5,10 @@ import * as classes from '../Sign.module.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { signUpRequest } from '../../../api';
 import { useCookies } from 'react-cookie';
+import { connect } from 'react-redux';
 import { setUserAction } from '../../../actions/user';
 
-const SignUp = () => {
+const SignUp = ({ setUser }) => {
   const { handleSubmit, control, errors, watch } = useForm();
   const [remember, setRemember] = useState(false);
   const [showRememberAlert, setShowRememberAlert] = useState(false);
@@ -35,7 +36,7 @@ const SignUp = () => {
         } else {
           const { user } = response;
           setCookie('token', user.token);
-          setUserAction(user);
+          setUser(user);
           history.push('/');
         }
       })
@@ -147,4 +148,8 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+const mapDispatchToProps = (dispatch) => ({
+  setUser: (data) => dispatch(setUserAction(data)),
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);

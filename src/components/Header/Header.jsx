@@ -9,7 +9,7 @@ import { getUserAction, setUserAction } from '../../actions/user';
 import { DEFAULT_IMG } from '../../api';
 import { GET_ARTICLE_SUCCESS } from '../../actions/types';
 
-const Header = ({ changePage, currentUser, getUser, setArticle }) => {
+const Header = ({ changePage, currentUser, getUser, setArticle, setUser }) => {
   const [cookies, setCookie] = useCookies(['token']);
   const history = useHistory();
 
@@ -21,12 +21,12 @@ const Header = ({ changePage, currentUser, getUser, setArticle }) => {
 
   const handleLogOut = () => {
     setCookie('token', '', { maxAge: -1 });
-    setUserAction(null);
-    history.push('/');
+    setUser(null);
+    history.push('./');
   };
 
   const renderUnauthorizedUserContent = () => {
-    if (!currentUser.user && !currentUser.isLoading) {
+    if (!currentUser.user) {
       return (
         <ul>
           <li>
@@ -88,6 +88,7 @@ const mapDispatchToProps = (dispatch) => ({
   changePage: (page) => dispatch(changePageAction(page)),
   getUser: (token) => dispatch(getUserAction(token)),
   setArticle: (data) => dispatch({ type: GET_ARTICLE_SUCCESS, payload: { article: data } }),
+  setUser: (data) => dispatch(setUserAction(data)),
 });
 
 const mapStateToProps = (state) => ({

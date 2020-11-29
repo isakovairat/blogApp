@@ -6,8 +6,9 @@ import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router-dom';
 import { updateUser } from '../../../api';
 import { setUserAction } from '../../../actions/user';
+import { connect } from 'react-redux';
 
-const EditProfile = () => {
+const EditProfile = ({ setUser }) => {
   const { handleSubmit, control, errors } = useForm();
   const [cookies, setCookie] = useCookies(['token']);
   const history = useHistory();
@@ -25,7 +26,7 @@ const EditProfile = () => {
         } else {
           const { token } = response.user;
           setCookie('token', token);
-          setUserAction(response.user);
+          setUser(response.user);
           history.push('/');
         }
       })
@@ -109,4 +110,8 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+const mapDispatchToProps = (dispatch) => ({
+  setUser: (data) => dispatch(setUserAction(data)),
+});
+
+export default connect(null, mapDispatchToProps)(EditProfile);
