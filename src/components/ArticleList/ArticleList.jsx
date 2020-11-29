@@ -12,7 +12,7 @@ const ArticleList = ({ getArticles, changePage, articles, appInfo }) => {
 
   useEffect(() => {
     getArticles();
-  }, []);
+  }, [getArticles]);
 
   const { currentPage } = appInfo;
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as classes from '../Article/Article.module.scss';
 import { HeartTwoTone } from '@ant-design/icons';
@@ -23,7 +23,7 @@ const Article = ({ article, getArticle, currentUser, setArticle }) => {
     } else if (!article.article) {
       getArticle();
     }
-  }, [slug]);
+  }, [article.article, getArticle, setArticle, slug]);
 
   const confirm = () => {
     message.info('The article was deleted.');

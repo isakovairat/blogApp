@@ -8,14 +8,14 @@ import { useCookies } from 'react-cookie';
 import { connect } from 'react-redux';
 import { setUserAction } from '../../../actions/user';
 
-const SignUp = ({ setUser }) => {
+const SignUp = ({ setUser, currentUser }) => {
   const { handleSubmit, control, errors, watch } = useForm();
   const [remember, setRemember] = useState(false);
   const [showRememberAlert, setShowRememberAlert] = useState(false);
   const [cookies, setCookie] = useCookies(['token']);
   const history = useHistory();
 
-  if (!cookies.token) {
+  if (!cookies.token && currentUser.user) {
     history.push('/');
   }
 
@@ -152,4 +152,8 @@ const mapDispatchToProps = (dispatch) => ({
   setUser: (data) => dispatch(setUserAction(data)),
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+const mapStateToProps = (state) => ({
+  currentUser: state.currentUser,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

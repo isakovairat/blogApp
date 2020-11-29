@@ -25,7 +25,7 @@ const NewArticle = ({ article, getArticle, setArticle, currentUser }) => {
     } else if (!article.article) {
       getArticle();
     }
-  }, [slug]);
+  }, [article.article, getArticle, setArticle, slug]);
 
   const onSubmit = (data) => {
     const { title, description, text, ...tags } = data;
