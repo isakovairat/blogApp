@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as classes from '../Article/Article.module.scss';
 import { HeartTwoTone } from '@ant-design/icons';
@@ -6,7 +6,7 @@ import { Spin, Tag, Popconfirm, message, Button } from 'antd';
 import getArticleAction from '../../actions/article';
 import * as dayjs from 'dayjs';
 import { useCookies } from 'react-cookie';
-import { articleCRUD } from '../../api';
+import { articleCRUD, likesCD } from '../../api';
 import { useHistory, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
@@ -16,6 +16,10 @@ const Article = ({ article, getArticle, currentUser, setArticle }) => {
   const [cookies] = useCookies(['token']);
   const { slug } = useParams();
   const history = useHistory();
+  const [likesInfo, setLikesInfo] = useState({
+    favoritesCount: article.article ? article.article.favoritesCount : 0,
+    favorited: article.article ? article.article.favorited : false,
+  });
 
   useEffect(() => {
     if (!slug) {
@@ -24,6 +28,33 @@ const Article = ({ article, getArticle, currentUser, setArticle }) => {
       getArticle();
     }
   }, [article.article, getArticle, setArticle, slug]);
+
+  useEffect(() => {
+    setLikesInfo({ favoritesCount: article.article ? article.article.favoritesCount : 0 });
+  }, [article]);
+
+  const handleLike = () => {
+    const { slug } = article;
+    const { token } = cookies;
+
+    if (likesInfo.favorited) {
+      likesCD({ token, slug, crudParam: 'D' })
+        .then((response) => {
+          setLikesInfo({ favorited: response.article.favorited, favoritesCount: response.article.favoritesCount });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      likesCD({ token, slug, crudParam: 'C' })
+        .then((response) => {
+          setLikesInfo({ favorited: response.article.favorited, favoritesCount: response.article.favoritesCount });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
   const confirm = () => {
     message.info('The article was deleted.');
@@ -81,15 +112,9 @@ const Article = ({ article, getArticle, currentUser, setArticle }) => {
           <div className={classes.textInfo}>
             <div className={classes.title}>
               <h5 className={classes.title__text}>{article.article.title}</h5>
-              <Button
-                className={classes.likeBtn}
-                disabled={!currentUser.user}
-                onClick={() => {
-                  // TODO обработчик лайков
-                }}
-              >
+              <Button className={classes.likeBtn} disabled={!currentUser.user} onClick={handleLike}>
                 <HeartTwoTone twoToneColor={!currentUser.user ? '#e5e5e5' : '#eb2f96'} style={{ fontSize: 18 }} />
-                <span className={classes.title__likes}>{article.article.favoritesCount}</span>
+                <span className={classes.title__likes}>{likesInfo.favoritesCount}</span>
               </Button>
             </div>
             <div className={classes.tags}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Input, Button } from 'antd';
 import * as classes from '../Sign.module.scss';
@@ -11,6 +11,7 @@ const SignIn = () => {
   const { handleSubmit, control, errors } = useForm();
   const [cookies, setCookie] = useCookies(['token']);
   const history = useHistory();
+  const [serverErrors, setServerErrors] = useState({});
 
   if (cookies.token) {
     history.push('/');
@@ -23,8 +24,9 @@ const SignIn = () => {
     };
     authRequest(body).then((response) => {
       if (response.errors) {
-        // TODO обработчик ошибок
+        setServerErrors({ ...response.errors });
       } else {
+        setServerErrors({});
         const { user } = response;
         setCookie('token', user.token);
         setUserAction(user);
@@ -52,6 +54,11 @@ const SignIn = () => {
             rules={{ required: true }}
           />
           {errors.email && <span className={classes.errorNotification}>Please input your email address</span>}
+          {serverErrors['email or password'] && (
+            <span
+              className={classes.errorNotification}
+            >{`Email or password ${serverErrors['email or password'][0]}`}</span>
+          )}
         </div>
         <div className={classes.input}>
           <label className={classes.label} htmlFor="password">
@@ -67,6 +74,11 @@ const SignIn = () => {
             rules={{ required: true }}
           />
           {errors.password && <span className={classes.errorNotification}>Please input your password</span>}
+          {serverErrors['email or password'] && (
+            <span
+              className={classes.errorNotification}
+            >{`Email or password ${serverErrors['email or password'][0]}`}</span>
+          )}
         </div>
         <div className={classes.btn}>
           <Button htmlType="submit" type="primary" shape="round" size="large" style={{ width: '100%' }}>

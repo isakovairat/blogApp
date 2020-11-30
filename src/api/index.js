@@ -113,7 +113,7 @@ export const likesCD = async ({ token, slug, crudParam }) => {
     case 'D':
       return (
         await fetch(`${ROOT}articles/${slug}/favorite`, {
-          method: 'POST',
+          method: 'DELETE',
           headers,
         })
       ).json();

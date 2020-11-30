@@ -13,6 +13,7 @@ const SignUp = ({ setUser, currentUser }) => {
   const [remember, setRemember] = useState(false);
   const [showRememberAlert, setShowRememberAlert] = useState(false);
   const [cookies, setCookie] = useCookies(['token']);
+  const [serverErrors, setServerErrors] = useState({});
   const history = useHistory();
 
   if (!cookies.token && currentUser.user) {
@@ -33,7 +34,9 @@ const SignUp = ({ setUser, currentUser }) => {
       .then((response) => {
         if (response.errors) {
           // TODO обработчик ошибок
+          setServerErrors({ ...response.errors });
         } else {
+          setServerErrors({});
           const { user } = response;
           setCookie('token', user.token);
           setUser(user);
@@ -64,6 +67,9 @@ const SignUp = ({ setUser, currentUser }) => {
             rules={{ required: true, maxLength: 20, minLength: 3 }}
           />
           {errors.username && <span className={classes.errorNotification}>Please input your username</span>}
+          {serverErrors.username && (
+            <span className={classes.errorNotification}>{`Username ${serverErrors.username[0]}`}</span>
+          )}
         </div>
 
         <div className={classes.input}>
@@ -81,6 +87,7 @@ const SignUp = ({ setUser, currentUser }) => {
             rules={{ required: true }}
           />
           {errors.email && <span className={classes.errorNotification}>Please input your email address</span>}
+          {serverErrors.email && <span className={classes.errorNotification}>{`Email ${serverErrors.email[0]}`}</span>}
         </div>
 
         <div className={classes.input}>
